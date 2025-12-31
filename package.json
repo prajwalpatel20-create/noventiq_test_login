@@ -1,0 +1,23 @@
+{
+  "name": "noventiq_test_login",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prajwalpatel20-create/noventiq_test_login.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/prajwalpatel20-create/noventiq_test_login/issues"
+  },
+  "homepage": "https://github.com/prajwalpatel20-create/noventiq_test_login#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.3"
+  }
+}
