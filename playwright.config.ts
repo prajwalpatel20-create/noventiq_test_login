@@ -1,79 +1,98 @@
 import { defineConfig, devices } from '@playwright/test';
+import * as dotenv from 'dotenv';
+import * as path from 'path';
 
 /**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
+ * Load environment variables based on TEST_ENV
+ * Usage: TEST_ENV=dev npx playwright test
+ * Default: dev
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+const env = process.env.TEST_ENV || 'dev';
+dotenv.config({ path: path.resolve(__dirname, `.env.${env}`) });
 
 /**
- * See https://playwright.dev/docs/test-configuration.
+ * Playwright Test Configuration
+ * Login Page Automation Framework
+ * 
+ * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-  testDir: './tests',
-  /* Run tests in files in parallel */
-  fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    /* Base URL to use in actions like `await page.goto('')`. */
-    // baseURL: 'http://localhost:3000',
+    // Test directory
+    testDir: './tests',
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-  },
+    // Run tests in files in parallel
+    fullyParallel: true,
 
-  /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+    // Fail the build on CI if you accidentally left test.only in the source code
+    forbidOnly: !!process.env.CI,
+
+    // Retry on CI only
+    retries: process.env.CI ? 2 : 1,
+
+    // Limit workers on CI
+    workers: process.env.CI ? 1 : undefined,
+
+    // Reporter configuration
+    reporter: [
+        ['list'],
+        ['html', { open: 'never', outputFolder: 'playwright-report' }],
+        ['json', { outputFile: 'test-results/results.json' }]
+    ],
+
+    // Test timeout
+    timeout: 30000,
+
+    // Expect timeout
+    expect: {
+        timeout: 5000
     },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+    // Shared settings for all projects
+    use: {
+        // Base URL from environment
+        baseURL: process.env.BASE_URL || 'https://practicetestautomation.com',
+
+        // Collect trace when retrying the failed test
+        trace: 'on-first-retry',
+
+        // Screenshot on failure
+        screenshot: 'only-on-failure',
+
+        // Video recording
+        video: 'retain-on-failure',
+
+        // Action timeout
+        actionTimeout: 10000,
+
+        // Navigation timeout
+        navigationTimeout: 15000,
     },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // Configure projects for major browsers
+    projects: [
+        {
+            name: 'chromium',
+            use: { 
+                ...devices['Desktop Chrome'],
+                viewport: { width: 1280, height: 720 },
+            },
+        },
+        {
+            name: 'firefox',
+            use: { 
+                ...devices['Desktop Firefox'],
+                viewport: { width: 1280, height: 720 },
+            },
+        },
+        {
+            name: 'webkit',
+            use: { 
+                ...devices['Desktop Safari'],
+                viewport: { width: 1280, height: 720 },
+            },
+        },
+    ],
 
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+    // Output folder for test artifacts
+    outputDir: 'test-results',
 });

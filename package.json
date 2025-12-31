@@ -1,15 +1,33 @@
 {
   "name": "noventiq_test_login",
   "version": "1.0.0",
-  "description": "",
+  "description": "Playwright Test Automation Framework for Login Page Testing",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test",
+    "test:dev": "cross-env TEST_ENV=dev npx playwright test",
+    "test:uat": "cross-env TEST_ENV=uat npx playwright test",
+    "test:chromium": "npx playwright test --project=chromium",
+    "test:firefox": "npx playwright test --project=firefox",
+    "test:webkit": "npx playwright test --project=webkit",
+    "test:headed": "npx playwright test --headed",
+    "test:debug": "npx playwright test --debug",
+    "test:ui": "npx playwright test --ui",
+    "report": "npx playwright show-report",
+    "report:open": "npx playwright show-report playwright-report"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/prajwalpatel20-create/noventiq_test_login.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "playwright",
+    "automation",
+    "testing",
+    "login",
+    "e2e"
+  ],
+  "author": "Prajwal Patel",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
@@ -18,6 +36,9 @@
   "homepage": "https://github.com/prajwalpatel20-create/noventiq_test_login#readme",
   "devDependencies": {
     "@playwright/test": "^1.57.0",
-    "@types/node": "^25.0.3"
+    "@types/node": "^25.0.3",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.2.3",
+    "prettier": "^3.5.3"
   }
 }
