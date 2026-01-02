@@ -1,0 +1,5 @@
+# Type check
+npm run lint
+
+# Format check
+npm run format:check

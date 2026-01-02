@@ -1,13 +1,13 @@
 import { Page } from "@playwright/test";
-import { LoginPage } from "./LoginPage";
+import { LoginPage } from "./loginPage";
 import { HomePage } from "./homePage";
 
 export class PageObjectManager {
     constructor(private page: Page) {
     }
 
-    private _loginPage  : LoginPage ;
-    private _homePage  : HomePage ;
+    private _loginPage!: LoginPage;
+    private _homePage!: HomePage;
 
     get loginPage(): LoginPage {
         return this._loginPage ??= new LoginPage(this.page);
