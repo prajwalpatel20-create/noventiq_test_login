@@ -59,8 +59,8 @@ noventiq_test_login/
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/prajwalpatel20-create/noventiq_test_login.git
-    cd noventiq_test_login
+    git clone <YOUR_REPO_URL>
+    cd <YOUR_REPO>
     ```
 
 2. **Install dependencies:**
