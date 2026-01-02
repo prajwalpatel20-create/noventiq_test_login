@@ -24,4 +24,4 @@ export const ENV_VAR = {
     LOGIN_URL: required('LOGIN_URL'),
     USERNAME: required('APP_USERNAME'),
     PASSWORD: required('APP_PASSWORD'),
-}
+};

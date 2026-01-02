@@ -13,7 +13,7 @@ dotenv.config({ path: path.resolve(__dirname, `.env.${env}`) });
 /**
  * Playwright Test Configuration
  * Login Page Automation Framework
- * 
+ *
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
@@ -36,7 +36,7 @@ export default defineConfig({
     reporter: [
         ['list'],
         ['html', { open: 'never', outputFolder: 'playwright-report' }],
-        ['json', { outputFile: 'test-results/results.json' }]
+        ['json', { outputFile: 'test-results/results.json' }],
     ],
 
     // Test timeout
@@ -44,7 +44,7 @@ export default defineConfig({
 
     // Expect timeout
     expect: {
-        timeout: 5000
+        timeout: 5000,
     },
 
     // Shared settings for all projects
@@ -72,21 +72,21 @@ export default defineConfig({
     projects: [
         {
             name: 'chromium',
-            use: { 
+            use: {
                 ...devices['Desktop Chrome'],
                 viewport: { width: 1280, height: 720 },
             },
         },
         {
             name: 'firefox',
-            use: { 
+            use: {
                 ...devices['Desktop Firefox'],
                 viewport: { width: 1280, height: 720 },
             },
         },
         {
             name: 'webkit',
-            use: { 
+            use: {
                 ...devices['Desktop Safari'],
                 viewport: { width: 1280, height: 720 },
             },

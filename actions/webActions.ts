@@ -1,8 +1,7 @@
-import { Page } from "@playwright/test";
+import { Page } from '@playwright/test';
 
 export class WebActions {
-    constructor(private page: Page) {
-    }
+    constructor(private page: Page) {}
 
     async isElementVisible(locator: string) {
         await this.waitForElement(locator);
@@ -10,12 +9,17 @@ export class WebActions {
     }
 
     private async waitForElement(identifier: string) {
-        const locator = identifier.match(/^#|\.|\//) ? this.page.locator(identifier) : this.page.getByTestId(identifier);
+        const locator = identifier.match(/^#|\.|\//)
+            ? this.page.locator(identifier)
+            : this.page.getByTestId(identifier);
         return this.fluentWait(() => locator.isVisible());
     }
 
-    async fluentWait(condition: () => Promise<boolean>, timeout: number = 5000, interval: number = 500):
-        Promise<boolean> {
+    async fluentWait(
+        condition: () => Promise<boolean>,
+        timeout: number = 5000,
+        interval: number = 500
+    ): Promise<boolean> {
         const startTime = Date.now();
         while (Date.now() - startTime < timeout) {
             try {
@@ -25,7 +29,7 @@ export class WebActions {
             } catch (error) {
                 console.error(`Error in fluentWait: ${error}`);
             }
-            await new Promise(resolve => setTimeout(resolve, interval));
+            await new Promise((resolve) => setTimeout(resolve, interval));
         }
         throw new Error(`Timeout in fluentWait after ${timeout}ms`);
     }
@@ -36,12 +40,10 @@ export class WebActions {
 
     async getText(locator: string) {
         const element = this.page.locator(locator);
-        return await element.textContent() || '';
+        return (await element.textContent()) || '';
     }
 
     async click(locator: string) {
         await this.page.locator(locator).click();
     }
-
-
 }

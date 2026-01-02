@@ -1,8 +1,7 @@
-import { Page } from "@playwright/test";
-import { WebActions } from "../actions/webActions";
+import { Page } from '@playwright/test';
+import { WebActions } from '../actions/webActions';
 
-export class BasePage  {
-
+export class BasePage {
     private page: Page;
     protected webActions: WebActions;
     constructor(page: Page) {
@@ -22,5 +21,4 @@ export class BasePage  {
     async getPageTitle() {
         return this.page.title();
     }
-
 }

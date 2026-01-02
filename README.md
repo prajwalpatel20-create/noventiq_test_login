@@ -43,39 +43,45 @@ noventiq_test_login/
 ## 📥 Installation
 
 1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/prajwalpatel20-create/noventiq_test_login.git
-   cd noventiq_test_login
-   ```
+
+    ```bash
+    git clone https://github.com/prajwalpatel20-create/noventiq_test_login.git
+    cd noventiq_test_login
+    ```
 
 2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 3. **Install Playwright browsers:**
-   ```bash
-   npx playwright install
-   ```
+
+    ```bash
+    npx playwright install
+    ```
 
 4. **Create environment file:**
-   
-   Update the `.env.dev` file with the below details:
-   ```
-   BASE_URL=
-   LOGIN_URL=
-   USERNAME=
-   PASSWORD=
-   ```
+
+    Update the `.env.dev` file with the below details:
+
+    ```
+    BASE_URL=
+    LOGIN_URL=
+    USERNAME=
+    PASSWORD=
+    ```
 
 ## 🧪 Running Tests
 
 ### Run all tests (default environment: dev)
+
 ```bash
 npm test
 ```
 
 ### Run tests by environment
+
 ```bash
 # Development environment
 npm run test:dev
@@ -85,6 +91,7 @@ npm run test:uat
 ```
 
 ### Run tests by tag
+
 ```bash
 # Run only negative test cases
 npm run test:negative
@@ -94,6 +101,7 @@ npm run test:positive
 ```
 
 ### Run tests in specific browser
+
 ```bash
 # Chromium only
 npm run test:chromium
@@ -106,16 +114,19 @@ npm run test:webkit
 ```
 
 ### Run tests in headed mode (with browser UI)
+
 ```bash
 npm run test:headed
 ```
 
 ### Run tests in debug mode
+
 ```bash
 npm run test:debug
 ```
 
 ### Run tests with Playwright UI
+
 ```bash
 npm run test:ui
 ```
@@ -123,7 +134,9 @@ npm run test:ui
 ## 📊 Test Reports
 
 ### View HTML Report
+
 After running tests, view the HTML report:
+
 ```bash
 npm run report
 ```
@@ -131,6 +144,7 @@ npm run report
 Reports are generated in the `playwright-report/` directory.
 
 ### Test Results
+
 - **HTML Report:** `playwright-report/index.html`
 - **JSON Results:** `test-results/results.json`
 - **Screenshots:** Captured on failure in `test-results/`
@@ -141,37 +155,41 @@ Reports are generated in the `playwright-report/` directory.
 This project includes **11 functional test cases** (5 negative + 6 positive):
 
 ### Negative Test Cases (`@negative`)
-| ID | Test Case | Description |
-|----|-----------|-------------|
-| TC-01 | Empty credentials | Error when both username and password are empty |
-| TC-02 | Invalid username | Error when username is invalid, password empty |
-| TC-03 | Empty password | Error when username is correct, password empty |
-| TC-04 | Empty username | Error when username is empty, password correct |
-| TC-05 | Wrong password | Error when username is correct, password incorrect |
+
+| ID    | Test Case         | Description                                        |
+| ----- | ----------------- | -------------------------------------------------- |
+| TC-01 | Empty credentials | Error when both username and password are empty    |
+| TC-02 | Invalid username  | Error when username is invalid, password empty     |
+| TC-03 | Empty password    | Error when username is correct, password empty     |
+| TC-04 | Empty username    | Error when username is empty, password correct     |
+| TC-05 | Wrong password    | Error when username is correct, password incorrect |
 
 ### Positive Test Cases (`@positive`)
-| ID | Test Case | Description |
-|----|-----------|-------------|
-| TC-06 | Successful login | Verify login with valid credentials shows success heading |
-| TC-07 | URL verification | Verify correct URL after successful login |
-| TC-08 | Page title | Verify correct page title after login |
-| TC-09 | Success message | Verify congratulations message after login |
-| TC-10 | Logout button | Verify logout button is visible after login |
-| TC-11 | Complete login validation | Comprehensive login verification (soft assertions) |
+
+| ID    | Test Case                 | Description                                               |
+| ----- | ------------------------- | --------------------------------------------------------- |
+| TC-06 | Successful login          | Verify login with valid credentials shows success heading |
+| TC-07 | URL verification          | Verify correct URL after successful login                 |
+| TC-08 | Page title                | Verify correct page title after login                     |
+| TC-09 | Success message           | Verify congratulations message after login                |
+| TC-10 | Logout button             | Verify logout button is visible after login               |
+| TC-11 | Complete login validation | Comprehensive login verification (soft assertions)        |
 
 ## 🔧 Configuration
 
 ### Environment Variables
+
 Credentials and URLs are stored securely in environment files (`.env.dev`, `.env.uat`) which are gitignored.
 
-| Variable | Description |
-|----------|-------------|
-| `BASE_URL` | Application base URL |
-| `LOGIN_URL` | Login page URL |
-| `USERNAME` | Valid username (encrypted/secured) |
-| `PASSWORD` | Valid password (encrypted/secured) |
+| Variable    | Description                        |
+| ----------- | ---------------------------------- |
+| `BASE_URL`  | Application base URL               |
+| `LOGIN_URL` | Login page URL                     |
+| `USERNAME`  | Valid username (encrypted/secured) |
+| `PASSWORD`  | Valid password (encrypted/secured) |
 
 ### Test Data Structure (`test-data/testData.json`)
+
 ```json
 {
     "loginPage": {
@@ -183,6 +201,7 @@ Credentials and URLs are stored securely in environment files (`.env.dev`, `.env
 ```
 
 ### Playwright Configuration (`playwright.config.ts`)
+
 - **Test Timeout:** 30 seconds
 - **Retries:** 1 (local), 2 (CI)
 - **Browsers:** Chromium, Firefox, WebKit
@@ -193,6 +212,7 @@ Credentials and URLs are stored securely in environment files (`.env.dev`, `.env
 ## 🏛️ Framework Design
 
 ### Architecture
+
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                        Test Layer                           │
@@ -225,6 +245,7 @@ Credentials and URLs are stored securely in environment files (`.env.dev`, `.env
 ```
 
 ### Key Features
+
 - ✅ TypeScript for type safety
 - ✅ Page Object Model with Page Object Manager
 - ✅ Custom Playwright fixtures for dependency injection
@@ -241,20 +262,20 @@ Credentials and URLs are stored securely in environment files (`.env.dev`, `.env
 
 ## 📚 Available Scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm test` | Run all tests |
-| `npm run test:dev` | Run tests in dev environment |
-| `npm run test:uat` | Run tests in UAT environment |
+| Script                  | Description                     |
+| ----------------------- | ------------------------------- |
+| `npm test`              | Run all tests                   |
+| `npm run test:dev`      | Run tests in dev environment    |
+| `npm run test:uat`      | Run tests in UAT environment    |
 | `npm run test:negative` | Run only @negative tagged tests |
 | `npm run test:positive` | Run only @positive tagged tests |
-| `npm run test:chromium` | Run tests in Chromium only |
-| `npm run test:firefox` | Run tests in Firefox only |
-| `npm run test:webkit` | Run tests in WebKit only |
-| `npm run test:headed` | Run tests with visible browser |
-| `npm run test:debug` | Run tests in debug mode |
-| `npm run test:ui` | Open Playwright UI mode |
-| `npm run report` | Open HTML test report |
+| `npm run test:chromium` | Run tests in Chromium only      |
+| `npm run test:firefox`  | Run tests in Firefox only       |
+| `npm run test:webkit`   | Run tests in WebKit only        |
+| `npm run test:headed`   | Run tests with visible browser  |
+| `npm run test:debug`    | Run tests in debug mode         |
+| `npm run test:ui`       | Open Playwright UI mode         |
+| `npm run report`        | Open HTML test report           |
 
 ## 🤝 Contributing
 

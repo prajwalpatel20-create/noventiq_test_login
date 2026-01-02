@@ -1,7 +1,6 @@
-import { BasePage } from "./basePage";
+import { BasePage } from './basePage';
 
 export class LoginPage extends BasePage {
-
     /**
     * This is one way to organize locators for having a page with less locators, 
       we can use other ways as well like in homePageLocators.ts
@@ -33,5 +32,4 @@ export class LoginPage extends BasePage {
     async getErrorMessage() {
         return await this.webActions.getText(this.errorMessage);
     }
-
 }
