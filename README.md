@@ -326,7 +326,7 @@ The project includes a comprehensive GitHub Actions workflow that:
     - Browser: `chromium`, `firefox`, `webkit`, `all`
     - Environment: `dev`, `uat`
 3. **Generates:** Allure report deployed to GitHub Pages
-4. **Report URL:** [https://prajwalpatel20-create.github.io/noventiq_test_login/allure/](https://prajwalpatel20-create.github.io/noventiq_test_login/allure/)
+4. **Report URL:** < DEPLOYED_REPORT_URL >
 
 ### GitHub Secrets Required
 
