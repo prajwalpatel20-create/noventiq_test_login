@@ -93,13 +93,6 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-      - name: Upload Allure Report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: allure-report
-          path: allure-report/
-          retention-days: 30
       - name: Prepare GitHub Pages
         if: always()
         run: |
@@ -112,6 +105,22 @@ jobs:
         if: always()
         with:
           path: gh-pages/
+      - name: Add Job Summary
+        if: always()
+        run: |
+          echo "## 📊 Test Reports" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Report | Link |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 📗 Playwright Report | [View Report](https://prajwalpatel20-create.github.io/noventiq_test_login/playwright/) |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📘 Allure Report | [View Report](https://prajwalpatel20-create.github.io/noventiq_test_login/allure/) |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ℹ️ Test Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tag:** ${{ github.event.inputs.test_tag || 'all' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Browser:** ${{ github.event.inputs.browser || 'all' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment:** ${{ github.event.inputs.environment || 'dev' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> ⚠️ **Note:** Download the **Playwright Report** artifact to view offline. Allure Report requires a web server and is best viewed via the GitHub Pages link above." >> $GITHUB_STEP_SUMMARY
 
   deploy:
     needs: test
