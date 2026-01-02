@@ -1,33 +1,38 @@
 # Login Page Automation - Playwright Test Framework
 
-A scalable and maintainable Playwright test automation framework for testing the login functionality at [Practice Test Automation](https://practicetestautomation.com/practice-test-login/).
+A scalable and maintainable Playwright test automation framework for testing the login functionality.
 
 ## 📋 Project Overview
 
-This project automates the login page testing using Playwright with TypeScript. It follows the Page Object Model (POM) design pattern for better maintainability and scalability.
-
-### Test Application
-- **URL:** https://practicetestautomation.com/practice-test-login/
-- **Valid Username:** `student`
-- **Valid Password:** `Password123`
+This project automates the login page testing using Playwright with TypeScript. It follows the Page Object Model (POM) design pattern with Page Object Manager, custom fixtures, and data-driven testing approach.
 
 ## 🏗️ Project Structure
 
 ```
 noventiq_test_login/
-├── pages/                    # Page Object Models
-│   ├── LoginPage.ts          # Login page actions and locators
-│   ├── SuccessPage.ts        # Success page actions and locators
-│   └── index.ts              # Page exports
-├── tests/                    # Test files
-│   └── login.spec.ts         # Login test cases (10 tests)
-├── docs/                     # Documentation
-│   └── TEST_CASES.md         # Detailed test cases documentation
-├── playwright-report/        # HTML test reports (generated)
-├── test-results/             # Test artifacts (generated)
-├── playwright.config.ts      # Playwright configuration
-├── package.json              # Project dependencies and scripts
-└── README.md                 # Project documentation
+├── actions/                      # Reusable web action utilities
+│   └── webActions.ts             # Common browser interactions (click, fill, getText, etc.)
+├── fixtures/                     # Playwright custom fixtures
+│   └── fixtures.ts               # Page Object Manager fixture setup
+├── pages/                        # Page Object Models
+│   ├── basePage.ts               # Base page with common methods
+│   ├── loginPage.ts              # Login page actions and locators
+│   ├── homePage.ts               # Home/Success page actions and locators
+│   └── pageObjectManager.ts      # Centralized page object management
+├── tests/                        # Test files
+│   ├── baseTest.ts               # Extended test with custom fixtures
+│   └── loginPage.spec.ts         # Login test cases (11 tests)
+├── test-data/                    # Test data files
+│   └── testData.json             # Data-driven test inputs (organized by page)
+├── utils/                        # Utility functions
+│   └── env.ts                    # Environment variable management
+├── playwright-report/            # HTML test reports (generated)
+├── test-results/                 # Test artifacts (generated)
+├── playwright.config.ts          # Playwright configuration
+├── package.json                  # Project dependencies and scripts
+├── .env.dev                      # Development environment variables (gitignored)
+├── .env.uat                      # UAT environment variables (gitignored)
+└── README.md                     # Project documentation
 ```
 
 ## 🚀 Prerequisites
@@ -53,11 +58,39 @@ noventiq_test_login/
    npx playwright install
    ```
 
+4. **Create environment file:**
+   
+   Update the `.env.dev` file with the below details:
+   ```
+   BASE_URL=
+   LOGIN_URL=
+   USERNAME=
+   PASSWORD=
+   ```
+
 ## 🧪 Running Tests
 
-### Run all tests (all browsers)
+### Run all tests (default environment: dev)
 ```bash
 npm test
+```
+
+### Run tests by environment
+```bash
+# Development environment
+npm run test:dev
+
+# UAT environment
+npm run test:uat
+```
+
+### Run tests by tag
+```bash
+# Run only negative test cases
+npm run test:negative
+
+# Run only positive test cases
+npm run test:positive
 ```
 
 ### Run tests in specific browser
@@ -105,29 +138,49 @@ Reports are generated in the `playwright-report/` directory.
 
 ## 📝 Test Cases
 
-This project includes **10 functional test cases** (5 positive + 5 negative):
+This project includes **11 functional test cases** (5 negative + 6 positive):
 
-### Positive Test Cases
-| ID | Test Case | Status |
-|----|-----------|--------|
-| TC_001 | Successful login with valid credentials | ✅ Automated |
-| TC_002 | Login page elements display correctly | ✅ Automated |
-| TC_003 | Logout functionality after login | ✅ Automated |
-| TC_004 | Congratulations message after login | ✅ Automated |
-| TC_005 | Input fields accept text entry | ✅ Automated |
+### Negative Test Cases (`@negative`)
+| ID | Test Case | Description |
+|----|-----------|-------------|
+| TC-01 | Empty credentials | Error when both username and password are empty |
+| TC-02 | Invalid username | Error when username is invalid, password empty |
+| TC-03 | Empty password | Error when username is correct, password empty |
+| TC-04 | Empty username | Error when username is empty, password correct |
+| TC-05 | Wrong password | Error when username is correct, password incorrect |
 
-### Negative Test Cases
-| ID | Test Case | Status |
-|----|-----------|--------|
-| TC_006 | Error for invalid username | ✅ Automated |
-| TC_007 | Error for invalid password | ✅ Automated |
-| TC_008 | Error when username is empty | ✅ Automated |
-| TC_009 | Error when password is empty | ✅ Automated |
-| TC_010 | Error when both fields are empty | ✅ Automated |
-
-> 📄 For detailed test case documentation, see [docs/TEST_CASES.md](docs/TEST_CASES.md)
+### Positive Test Cases (`@positive`)
+| ID | Test Case | Description |
+|----|-----------|-------------|
+| TC-06 | Successful login | Verify login with valid credentials shows success heading |
+| TC-07 | URL verification | Verify correct URL after successful login |
+| TC-08 | Page title | Verify correct page title after login |
+| TC-09 | Success message | Verify congratulations message after login |
+| TC-10 | Logout button | Verify logout button is visible after login |
+| TC-11 | Complete login validation | Comprehensive login verification (soft assertions) |
 
 ## 🔧 Configuration
+
+### Environment Variables
+Credentials and URLs are stored securely in environment files (`.env.dev`, `.env.uat`) which are gitignored.
+
+| Variable | Description |
+|----------|-------------|
+| `BASE_URL` | Application base URL |
+| `LOGIN_URL` | Login page URL |
+| `USERNAME` | Valid username (encrypted/secured) |
+| `PASSWORD` | Valid password (encrypted/secured) |
+
+### Test Data Structure (`test-data/testData.json`)
+```json
+{
+    "loginPage": {
+        "invalidLogin": { "wrongUsername", "wrongPassword", "emptyUsername", "emptyPassword" },
+        "validLogin": { "url", "pageTitle", "loginSuccessMessage", "loginSuccessHeading" },
+        "errorMessages": { "invalidUsernameMsg", "invalidPasswordMsg" }
+    }
+}
+```
 
 ### Playwright Configuration (`playwright.config.ts`)
 - **Test Timeout:** 30 seconds
@@ -139,26 +192,62 @@ This project includes **10 functional test cases** (5 positive + 5 negative):
 
 ## 🏛️ Framework Design
 
-### Page Object Model (POM)
-The framework uses Page Object Model for:
-- **Separation of concerns:** Locators and actions are separated from tests
-- **Reusability:** Page methods can be reused across multiple tests
-- **Maintainability:** Changes to UI require updates in one place only
+### Architecture
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        Test Layer                           │
+│              (loginPage.spec.ts + baseTest.ts)              │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      Fixtures Layer                         │
+│                       (fixtures.ts)                         │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  Page Object Manager                        │
+│                  (pageObjectManager.ts)                     │
+└─────────────────────────────────────────────────────────────┘
+                              │
+              ┌───────────────┼───────────────┐
+              ▼               ▼               ▼
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│    LoginPage    │ │    HomePage     │ │    BasePage     │
+└─────────────────┘ └─────────────────┘ └─────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      WebActions                             │
+│        (Reusable browser interactions with waits)           │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### Key Features
 - ✅ TypeScript for type safety
-- ✅ Page Object Model design pattern
+- ✅ Page Object Model with Page Object Manager
+- ✅ Custom Playwright fixtures for dependency injection
+- ✅ Data-driven testing with JSON test data
+- ✅ Environment-based configuration (dev, uat)
+- ✅ Secure credential management via .env files
+- ✅ Reusable WebActions utility class
+- ✅ Test tagging (@positive, @negative)
+- ✅ Soft assertions for comprehensive validations
 - ✅ Cross-browser testing (Chromium, Firefox, WebKit)
 - ✅ Parallel test execution
 - ✅ HTML and JSON reports
 - ✅ Screenshot and video on failure
-- ✅ Configurable timeouts and retries
 
 ## 📚 Available Scripts
 
 | Script | Description |
 |--------|-------------|
-| `npm test` | Run all tests in all browsers |
+| `npm test` | Run all tests |
+| `npm run test:dev` | Run tests in dev environment |
+| `npm run test:uat` | Run tests in UAT environment |
+| `npm run test:negative` | Run only @negative tagged tests |
+| `npm run test:positive` | Run only @positive tagged tests |
 | `npm run test:chromium` | Run tests in Chromium only |
 | `npm run test:firefox` | Run tests in Firefox only |
 | `npm run test:webkit` | Run tests in WebKit only |

@@ -14,7 +14,9 @@
     "test:debug": "npx playwright test --debug",
     "test:ui": "npx playwright test --ui",
     "report": "npx playwright show-report",
-    "report:open": "npx playwright show-report playwright-report"
+    "report:open": "npx playwright show-report playwright-report",
+    "test:negative": "cross-env TEST_ENV=dev npx playwright test --grep '@negative'",
+    "test:positive": "cross-env TEST_ENV=dev npx playwright test --grep '@positive'"
   },
   "repository": {
     "type": "git",

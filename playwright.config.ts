@@ -50,7 +50,7 @@ export default defineConfig({
     // Shared settings for all projects
     use: {
         // Base URL from environment
-        baseURL: process.env.BASE_URL || 'https://practicetestautomation.com',
+        baseURL: process.env.BASE_URL,
 
         // Collect trace when retrying the failed test
         trace: 'on-first-retry',

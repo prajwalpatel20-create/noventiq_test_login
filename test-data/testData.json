@@ -1,0 +1,20 @@
+{
+    "loginPage": {
+        "invalidLogin": {
+            "wrongUsername": "abctest",
+            "wrongPassword": "123456",
+            "emptyUsername": "",
+            "emptyPassword": ""
+        },
+        "validLogin": {
+            "url": "/logged-in-successfully/",
+            "pageTitle": "Logged In Successfully | Practice Test Automation",
+            "loginSuccessMessage": "Congratulations student. You successfully logged in!",
+            "loginSuccessHeading": "Logged In Successfully"
+        },
+        "errorMessages": {
+            "invalidUsernameMsg": "Your username is invalid!",
+            "invalidPasswordMsg": "Your password is invalid!"
+        }
+    }
+}
