@@ -22,6 +22,6 @@ function required(key: string): string {
 export const ENV_VAR = {
     BASE_URL: required('BASE_URL'),
     LOGIN_URL: required('LOGIN_URL'),
-    USERNAME: required('APP_USERNAME'),
-    PASSWORD: required('APP_PASSWORD'),
+    USERNAME: required('TEST_USERNAME'),
+    PASSWORD: required('TEST_PASSWORD'),
 };
