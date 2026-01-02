@@ -1,10 +1,10 @@
 # Login Page Automation - Playwright Test Framework
 
-A scalable and maintainable Playwright test automation framework for testing the login functionality.
+A scalable and maintainable Playwright test automation framework for testing login functionality.
 
 ## 📋 Project Overview
 
-This project automates the login page testing using Playwright with TypeScript. It follows the Page Object Model (POM) design pattern with Page Object Manager, custom fixtures, and data-driven testing approach.
+This project automates login page testing using Playwright with TypeScript. It follows the Page Object Model (POM) design pattern with Page Object Manager, custom fixtures, and data-driven testing approach.
 
 ## 🏗️ Project Structure
 
@@ -45,7 +45,7 @@ noventiq_test_login/
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/prajwalpatel20-create/noventiq_test_login.git
+    git clone <repository-url>
     cd noventiq_test_login
     ```
 
@@ -63,14 +63,16 @@ noventiq_test_login/
 
 4. **Create environment file:**
 
-    Update the `.env.dev` file with the below details:
+    Create a `.env.dev` file in the root directory with the following variables:
 
     ```
-    BASE_URL=
-    LOGIN_URL=
-    USERNAME=
-    PASSWORD=
+    BASE_URL=<application-base-url>
+    LOGIN_URL=<login-page-url>
+    USERNAME=<valid-username>
+    PASSWORD=<valid-password>
     ```
+
+    > **Note:** Environment files (`.env.*`) are gitignored for security. You must create these files locally with the appropriate credentials.
 
 ## 🧪 Running Tests
 
@@ -181,24 +183,12 @@ This project includes **11 functional test cases** (5 negative + 6 positive):
 
 Credentials and URLs are stored securely in environment files (`.env.dev`, `.env.uat`) which are gitignored.
 
-| Variable    | Description                        |
-| ----------- | ---------------------------------- |
-| `BASE_URL`  | Application base URL               |
-| `LOGIN_URL` | Login page URL                     |
-| `USERNAME`  | Valid username (encrypted/secured) |
-| `PASSWORD`  | Valid password (encrypted/secured) |
-
-### Test Data Structure (`test-data/testData.json`)
-
-```json
-{
-    "loginPage": {
-        "invalidLogin": { "wrongUsername", "wrongPassword", "emptyUsername", "emptyPassword" },
-        "validLogin": { "url", "pageTitle", "loginSuccessMessage", "loginSuccessHeading" },
-        "errorMessages": { "invalidUsernameMsg", "invalidPasswordMsg" }
-    }
-}
-```
+| Variable    | Description          |
+| ----------- | -------------------- |
+| `BASE_URL`  | Application base URL |
+| `LOGIN_URL` | Login page URL       |
+| `USERNAME`  | Valid username       |
+| `PASSWORD`  | Valid password       |
 
 ### Playwright Configuration (`playwright.config.ts`)
 
@@ -277,19 +267,6 @@ Credentials and URLs are stored securely in environment files (`.env.dev`, `.env
 | `npm run test:ui`       | Open Playwright UI mode         |
 | `npm run report`        | Open HTML test report           |
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/new-test`)
-3. Commit changes (`git commit -m 'Add new test case'`)
-4. Push to branch (`git push origin feature/new-test`)
-5. Open a Pull Request
-
 ## 📄 License
 
 This project is licensed under the ISC License.
-
----
-
-**Author:** Prajwal Patel  
-**Repository:** [GitHub](https://github.com/prajwalpatel20-create/noventiq_test_login)
