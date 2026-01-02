@@ -15,7 +15,7 @@ export class WebActions {
         return this.fluentWait(() => locator.isVisible());
     }
 
-    async fluentWait(
+    private async fluentWait(
         condition: () => Promise<boolean>,
         timeout: number = 5000,
         interval: number = 500
