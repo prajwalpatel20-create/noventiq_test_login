@@ -19,12 +19,18 @@ jobs:
               run: npx playwright install --with-deps
             - name: Create .env.dev file
               run: |
-                  echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env.dev
+                  echo "BASE_URL=${{ secrets.BASE_URL }}" > .env.dev
                   echo "LOGIN_URL=${{ secrets.LOGIN_URL }}" >> .env.dev
-                  echo "USERNAME=${{ secrets.TEST_USERNAME }}" >> .env.dev
-                  echo "PASSWORD=${{ secrets.TEST_PASSWORD }}" >> .env.dev
+                  echo "APP_USERNAME=${{ secrets.TEST_USERNAME }}" >> .env.dev
+                  echo "APP_PASSWORD=${{ secrets.TEST_PASSWORD }}" >> .env.dev
+                  cat .env.dev
             - name: Run Playwright tests
               run: npm run test:dev
+              env:
+                  BASE_URL: ${{ secrets.BASE_URL }}
+                  LOGIN_URL: ${{ secrets.LOGIN_URL }}
+                  APP_USERNAME: ${{ secrets.TEST_USERNAME }}
+                  APP_PASSWORD: ${{ secrets.TEST_PASSWORD }}
             - uses: actions/upload-artifact@v4
               if: ${{ !cancelled() }}
               with:
