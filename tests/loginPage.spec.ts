@@ -61,23 +61,17 @@ test.describe('Login Page', () => {
         expect(successHeading).toBe(loginSuccessHeading);
     });
 
-    test('tc - 07: Verify that the application navigates to the correct URL after successful login @positive', async ({
+    test('tc - 07: Verify that the application navigates to the correct URL and displays the correct page title after successful login @positive', async ({
         pageObjectManager,
     }) => {
         await pageObjectManager.loginPage.login(correctUsername, correctPassword);
         const currentUrl = await pageObjectManager.homePage.getCurrentUrl();
-        expect(currentUrl).toContain(url);
-    });
-
-    test('tc - 08: Verify that the correct page title is displayed after successful login @positive', async ({
-        pageObjectManager,
-    }) => {
-        await pageObjectManager.loginPage.login(correctUsername, correctPassword);
         const title = await pageObjectManager.homePage.getPageTitle();
-        expect(title).toBe(pageTitle);
+        expect.soft(currentUrl).toContain(url);
+        expect.soft(title).toBe(pageTitle);
     });
 
-    test('tc - 09: Verify that the correct success message is displayed after successful login @positive', async ({
+    test('tc - 08: Verify that the correct success message is displayed after successful login @positive', async ({
         pageObjectManager,
     }) => {
         await pageObjectManager.loginPage.login(correctUsername, correctPassword);
@@ -85,27 +79,17 @@ test.describe('Login Page', () => {
         expect(successMessage).toBe(loginSuccessMessage);
     });
 
-    test('tc - 10: Verify that the logout button is visible and enabled after successful login @positive', async ({
+    test('tc - 09: Verify that the logout button is visible after successful login @positive', async ({
         pageObjectManager,
     }) => {
         await pageObjectManager.loginPage.login(correctUsername, correctPassword);
-        const isLogoutButtonVisible = await pageObjectManager.homePage.verifyLogoutButtonIsVisible();
+        const isLogoutButtonVisible = await pageObjectManager.homePage.isLogoutButtonIsVisible();
         expect(isLogoutButtonVisible).toBe(true);
     });
 
-    //as per the requirements, test case - 06,07,08,09,10 are already covered by this test case
-    test('tc - 11: Verify success login @positive', async ({ pageObjectManager }) => {
+    test('tc - 10: Verify success message contains the username @positive', async ({ pageObjectManager }) => {
         await pageObjectManager.loginPage.login(correctUsername, correctPassword);
-        const successHeading = await pageObjectManager.homePage.getLoginSuccessHeading();
-        const currentUrl = await pageObjectManager.homePage.getCurrentUrl();
-        const title = await pageObjectManager.homePage.getPageTitle();
         const successMessage = await pageObjectManager.homePage.getLoginSuccessMessage();
-        const isLogoutButtonVisible = await pageObjectManager.homePage.verifyLogoutButtonIsVisible();
-
-        expect.soft(successHeading, 'Login success heading is not displayed').toBe(loginSuccessHeading);
-        expect.soft(currentUrl, `Expected current URL is not displayed: ${url}`).toContain(url);
-        expect.soft(title, 'Page title is not displayed').toBe(pageTitle);
-        expect.soft(successMessage, 'Login success message is not displayed').toBe(loginSuccessMessage);
-        expect.soft(isLogoutButtonVisible, 'Logout button is not visible').toBe(true);
+        expect(successMessage).toContain(correctUsername);
     });
 });

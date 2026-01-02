@@ -3,7 +3,7 @@ import { Page } from '@playwright/test';
 export class WebActions {
     constructor(private page: Page) {}
 
-    async isElementVisible(locator: string) {
+    async isElementVisible(locator: string): Promise<boolean> {
         await this.waitForElement(locator);
         return await this.page.locator(locator).isVisible();
     }
@@ -38,7 +38,7 @@ export class WebActions {
         await this.page.locator(locator).fill(value);
     }
 
-    async getText(locator: string) {
+    async getText(locator: string): Promise<string> {
         const element = this.page.locator(locator);
         return (await element.textContent()) || '';
     }
