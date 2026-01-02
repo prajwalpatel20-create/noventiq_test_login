@@ -4,6 +4,43 @@ on:
         branches: [main, master]
     pull_request:
         branches: [main, master]
+    # Manual trigger with options
+    workflow_dispatch:
+        inputs:
+            test_tag:
+                description: 'Test tag to run'
+                required: true
+                default: 'all'
+                type: choice
+                options:
+                    - all
+                    - '@positive'
+                    - '@negative'
+            browser:
+                description: 'Browser to run tests'
+                required: true
+                default: 'chromium'
+                type: choice
+                options:
+                    - chromium
+                    - firefox
+                    - webkit
+                    - all
+            environment:
+                description: 'Environment'
+                required: true
+                default: 'dev'
+                type: choice
+                options:
+                    - dev
+                    - uat
+
+# Sets permissions for GitHub Pages deployment
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
 jobs:
     test:
         timeout-minutes: 60
@@ -17,29 +54,81 @@ jobs:
               run: npm ci
             - name: Install Playwright Browsers
               run: npx playwright install --with-deps
-            - name: Create .env.dev file
+            - name: Create .env file
               run: |
-                  echo "BASE_URL=${{ secrets.BASE_URL }}" > .env.dev
-                  echo "LOGIN_URL=${{ secrets.LOGIN_URL }}" >> .env.dev
-                  echo "TEST_USERNAME=${{ secrets.TEST_USERNAME }}" >> .env.dev
-                  echo "TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}" >> .env.dev
-                  cat .env.dev
+                  ENV_FILE=".env.${{ github.event.inputs.environment || 'dev' }}"
+                  echo "BASE_URL=${{ secrets.BASE_URL }}" > $ENV_FILE
+                  echo "LOGIN_URL=${{ secrets.LOGIN_URL }}" >> $ENV_FILE
+                  echo "TEST_USERNAME=${{ secrets.TEST_USERNAME }}" >> $ENV_FILE
+                  echo "TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}" >> $ENV_FILE
+                  echo "Created $ENV_FILE"
             - name: Run Playwright tests
-              run: npm run test:dev
+              run: |
+                  # Determine test command based on inputs
+                  TAG="${{ github.event.inputs.test_tag || 'all' }}"
+                  BROWSER="${{ github.event.inputs.browser || 'all' }}"
+                  ENV="${{ github.event.inputs.environment || 'dev' }}"
+
+                  CMD="cross-env TEST_ENV=$ENV npx playwright test"
+
+                  # Add tag filter
+                  if [ "$TAG" != "all" ]; then
+                    CMD="$CMD --grep '$TAG'"
+                  fi
+
+                  # Add browser project
+                  if [ "$BROWSER" != "all" ]; then
+                    CMD="$CMD --project=$BROWSER"
+                  fi
+
+                  echo "Running: $CMD"
+                  eval $CMD
               env:
                   BASE_URL: ${{ secrets.BASE_URL }}
                   LOGIN_URL: ${{ secrets.LOGIN_URL }}
                   TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
                   TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
-            - uses: actions/upload-artifact@v4
-              if: ${{ !cancelled() }}
+            - name: Generate Allure Report
+              if: always()
+              run: npx allure generate allure-results --clean -o allure-report
+            - name: Upload Playwright Report Artifact
+              uses: actions/upload-artifact@v4
+              if: always()
               with:
                   name: playwright-report
                   path: playwright-report/
                   retention-days: 30
-            - uses: actions/upload-artifact@v4
-              if: ${{ !cancelled() }}
+            - name: Upload Allure Report Artifact
+              uses: actions/upload-artifact@v4
+              if: always()
               with:
-                  name: allure-results
-                  path: allure-results/
+                  name: allure-report
+                  path: allure-report/
                   retention-days: 30
+            - name: Prepare GitHub Pages
+              if: always()
+              run: |
+                  mkdir -p gh-pages
+                  cp -r playwright-report gh-pages/playwright
+                  cp -r allure-report gh-pages/allure
+                  TAG="${{ github.event.inputs.test_tag || 'all' }}"
+                  BROWSER="${{ github.event.inputs.browser || 'all' }}"
+                  ENV="${{ github.event.inputs.environment || 'dev' }}"
+                  echo '<html><head><title>Test Reports</title><style>body{font-family:Arial,sans-serif;max-width:600px;margin:50px auto;padding:20px}h1{color:#333}a{display:block;padding:15px 20px;margin:10px 0;background:#4CAF50;color:white;text-decoration:none;border-radius:5px;text-align:center}a:hover{background:#45a049}.info{background:#f0f0f0;padding:10px;border-radius:5px;margin:10px 0}</style></head><body><h1>📊 Test Reports</h1><div class="info"><strong>Tag:</strong> '"$TAG"' | <strong>Browser:</strong> '"$BROWSER"' | <strong>Env:</strong> '"$ENV"'</div><a href="playwright/">📗 Playwright Report</a><a href="allure/">📘 Allure Report</a><p>Last updated: '$(date)'</p></body></html>' > gh-pages/index.html
+            - name: Upload Pages Artifact
+              uses: actions/upload-pages-artifact@v3
+              if: always()
+              with:
+                  path: gh-pages/
+
+    deploy:
+        needs: test
+        if: always() && github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
