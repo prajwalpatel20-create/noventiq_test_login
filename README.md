@@ -170,13 +170,13 @@ npm run report
 
 ### Report Locations
 
-| Report Type | Location | Command |
-|-------------|----------|---------|
-| Allure Report | `allure-report/` | `npm run allure:report` |
-| Playwright HTML | `playwright-report/` | `npm run report` |
-| JSON Results | `test-results/results.json` | Auto-generated |
-| Screenshots | `test-results/` | On failure |
-| Videos | `test-results/` | On failure |
+| Report Type     | Location                    | Command                 |
+| --------------- | --------------------------- | ----------------------- |
+| Allure Report   | `allure-report/`            | `npm run allure:report` |
+| Playwright HTML | `playwright-report/`        | `npm run report`        |
+| JSON Results    | `test-results/results.json` | Auto-generated          |
+| Screenshots     | `test-results/`             | On failure              |
+| Videos          | `test-results/`             | On failure              |
 
 ## 📝 Test Cases
 
@@ -194,13 +194,13 @@ This project includes **10 functional test cases** (5 negative + 5 positive):
 
 ### Positive Test Cases (`@positive`)
 
-| ID    | Test Case            | Description                                    |
-| ----- | -------------------- | ---------------------------------------------- |
-| TC-06 | Successful login     | Verify login with valid credentials            |
-| TC-07 | URL & title check    | Verify correct URL and page title after login  |
-| TC-08 | Success message      | Verify congratulations message after login     |
-| TC-09 | Logout button        | Verify logout button is visible after login    |
-| TC-10 | Username in message  | Verify success message contains the username   |
+| ID    | Test Case           | Description                                   |
+| ----- | ------------------- | --------------------------------------------- |
+| TC-06 | Successful login    | Verify login with valid credentials           |
+| TC-07 | URL & title check   | Verify correct URL and page title after login |
+| TC-08 | Success message     | Verify congratulations message after login    |
+| TC-09 | Logout button       | Verify logout button is visible after login   |
+| TC-10 | Username in message | Verify success message contains the username  |
 
 ## 🔧 Configuration
 
@@ -217,18 +217,18 @@ Credentials and URLs are stored securely in environment files (`.env.dev`, `.env
 
 ### Playwright Configuration (`playwright.config.ts`)
 
-| Setting | Value |
-|---------|-------|
-| Test Timeout | 30 seconds |
-| Expect Timeout | 5 seconds |
-| Action Timeout | 10 seconds |
-| Navigation Timeout | 15 seconds |
-| Retries | 1 (local), 2 (CI) |
-| Workers | Unlimited (local), 1 (CI) |
-| Browsers | Chromium, Firefox, WebKit |
-| Screenshots | On failure only |
-| Video | Retained on failure |
-| Trace | On first retry |
+| Setting            | Value                     |
+| ------------------ | ------------------------- |
+| Test Timeout       | 30 seconds                |
+| Expect Timeout     | 5 seconds                 |
+| Action Timeout     | 10 seconds                |
+| Navigation Timeout | 15 seconds                |
+| Retries            | 1 (local), 2 (CI)         |
+| Workers            | Unlimited (local), 1 (CI) |
+| Browsers           | Chromium, Firefox, WebKit |
+| Screenshots        | On failure only           |
+| Video              | Retained on failure       |
+| Trace              | On first retry            |
 
 ### Reporters Configured
 
@@ -275,29 +275,30 @@ Credentials and URLs are stored securely in environment files (`.env.dev`, `.env
 
 ### Key Features
 
-| Feature | Description |
-|---------|-------------|
-| ✅ TypeScript | Type safety and better IDE support |
-| ✅ Page Object Model | Maintainable and reusable page classes |
-| ✅ Page Object Manager | Centralized lazy initialization of pages |
-| ✅ Custom Fixtures | Dependency injection for clean test setup |
-| ✅ Data-Driven Testing | JSON-based test data management |
-| ✅ Environment Config | Support for dev/uat environments |
-| ✅ Secure Credentials | Environment variables (gitignored) |
-| ✅ WebActions Utility | Reusable browser interactions with fluent waits |
-| ✅ Test Tagging | `@positive`, `@negative` for selective runs |
-| ✅ Soft Assertions | Multiple validations in single test |
-| ✅ Cross-Browser | Chromium, Firefox, WebKit |
-| ✅ Parallel Execution | Faster test runs |
-| ✅ Allure Reports | Rich test analytics and history |
-| ✅ CI/CD Integration | GitHub Actions with auto-deploy |
-| ✅ Code Quality | Husky pre-commit hooks + Prettier |
+| Feature                | Description                                     |
+| ---------------------- | ----------------------------------------------- |
+| ✅ TypeScript          | Type safety and better IDE support              |
+| ✅ Page Object Model   | Maintainable and reusable page classes          |
+| ✅ Page Object Manager | Centralized lazy initialization of pages        |
+| ✅ Custom Fixtures     | Dependency injection for clean test setup       |
+| ✅ Data-Driven Testing | JSON-based test data management                 |
+| ✅ Environment Config  | Support for dev/uat environments                |
+| ✅ Secure Credentials  | Environment variables (gitignored)              |
+| ✅ WebActions Utility  | Reusable browser interactions with fluent waits |
+| ✅ Test Tagging        | `@positive`, `@negative` for selective runs     |
+| ✅ Soft Assertions     | Multiple validations in single test             |
+| ✅ Cross-Browser       | Chromium, Firefox, WebKit                       |
+| ✅ Parallel Execution  | Faster test runs                                |
+| ✅ Allure Reports      | Rich test analytics and history                 |
+| ✅ CI/CD Integration   | GitHub Actions with auto-deploy                 |
+| ✅ Code Quality        | Husky pre-commit hooks + Prettier               |
 
 ### Locator Organization Patterns
 
 This framework demonstrates two locator organization approaches:
 
 **1. Inline Locators (LoginPage.ts):**
+
 ```typescript
 export class LoginPage extends BasePage {
     readonly usernameInput = '#username';
@@ -306,6 +307,7 @@ export class LoginPage extends BasePage {
 ```
 
 **2. External Locators (homePageLocators.ts):**
+
 ```typescript
 export const HomePageLocators = {
     postTitle: { id: '.post-title', type: 'css', text: 'Logged In Successfully' },
@@ -320,20 +322,20 @@ The project includes a comprehensive GitHub Actions workflow that:
 
 1. **Triggers on:** Push to main/master, Pull requests, Manual dispatch
 2. **Manual Run Options:**
-   - Test tag: `all`, `@positive`, `@negative`
-   - Browser: `chromium`, `firefox`, `webkit`, `all`
-   - Environment: `dev`, `uat`
+    - Test tag: `all`, `@positive`, `@negative`
+    - Browser: `chromium`, `firefox`, `webkit`, `all`
+    - Environment: `dev`, `uat`
 3. **Generates:** Allure report deployed to GitHub Pages
 4. **Report URL:** [https://prajwalpatel20-create.github.io/noventiq_test_login/allure/](https://prajwalpatel20-create.github.io/noventiq_test_login/allure/)
 
 ### GitHub Secrets Required
 
-| Secret | Description |
-|--------|-------------|
-| `BASE_URL` | Application base URL |
-| `LOGIN_URL` | Login page URL |
-| `TEST_USERNAME` | Valid test username |
-| `TEST_PASSWORD` | Valid test password |
+| Secret          | Description          |
+| --------------- | -------------------- |
+| `BASE_URL`      | Application base URL |
+| `LOGIN_URL`     | Login page URL       |
+| `TEST_USERNAME` | Valid test username  |
+| `TEST_PASSWORD` | Valid test password  |
 
 ## 🔍 Code Quality
 
@@ -355,6 +357,7 @@ npm run format:check
 ```
 
 **Prettier Configuration (`.prettierrc`):**
+
 - Single quotes
 - 4-space indentation
 - Trailing commas (ES5)
@@ -362,26 +365,26 @@ npm run format:check
 
 ## 📚 Available Scripts
 
-| Script | Description |
-| ------ | ----------- |
-| `npm test` | Run all tests |
-| `npm run test:dev` | Run tests in dev environment |
-| `npm run test:uat` | Run tests in UAT environment |
-| `npm run test:negative` | Run only @negative tagged tests |
-| `npm run test:positive` | Run only @positive tagged tests |
-| `npm run test:chromium` | Run tests in Chromium only |
-| `npm run test:firefox` | Run tests in Firefox only |
-| `npm run test:webkit` | Run tests in WebKit only |
-| `npm run test:headed` | Run tests with visible browser |
-| `npm run test:debug` | Run tests in debug mode |
-| `npm run test:ui` | Open Playwright UI mode |
-| `npm run report` | Open Playwright HTML report |
-| `npm run allure:generate` | Generate Allure report |
-| `npm run allure:open` | Open Allure report |
-| `npm run allure:report` | Generate and open Allure report |
-| `npm run lint` | Run TypeScript type checking |
-| `npm run format` | Format code with Prettier |
-| `npm run format:check` | Check code formatting |
+| Script                    | Description                     |
+| ------------------------- | ------------------------------- |
+| `npm test`                | Run all tests                   |
+| `npm run test:dev`        | Run tests in dev environment    |
+| `npm run test:uat`        | Run tests in UAT environment    |
+| `npm run test:negative`   | Run only @negative tagged tests |
+| `npm run test:positive`   | Run only @positive tagged tests |
+| `npm run test:chromium`   | Run tests in Chromium only      |
+| `npm run test:firefox`    | Run tests in Firefox only       |
+| `npm run test:webkit`     | Run tests in WebKit only        |
+| `npm run test:headed`     | Run tests with visible browser  |
+| `npm run test:debug`      | Run tests in debug mode         |
+| `npm run test:ui`         | Open Playwright UI mode         |
+| `npm run report`          | Open Playwright HTML report     |
+| `npm run allure:generate` | Generate Allure report          |
+| `npm run allure:open`     | Open Allure report              |
+| `npm run allure:report`   | Generate and open Allure report |
+| `npm run lint`            | Run TypeScript type checking    |
+| `npm run format`          | Format code with Prettier       |
+| `npm run format:check`    | Check code formatting           |
 
 ## 👤 Author
 
