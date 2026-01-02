@@ -118,19 +118,32 @@ jobs:
       - name: Add Job Summary
         if: always()
         run: |
-          echo "## 📊 Test Reports" >> $GITHUB_STEP_SUMMARY
+          echo "## 📊 Test Reports (Click to View)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Report | Link |" >> $GITHUB_STEP_SUMMARY
-          echo "|--------|------|" >> $GITHUB_STEP_SUMMARY
-          echo "| 📗 Playwright Report | [View Report](https://prajwalpatel20-create.github.io/noventiq_test_login/playwright/) |" >> $GITHUB_STEP_SUMMARY
-          echo "| 📘 Allure Report | [View Report](https://prajwalpatel20-create.github.io/noventiq_test_login/allure/) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Report | View Online |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 📗 **Playwright Report** | [🔗 View Report](https://prajwalpatel20-create.github.io/noventiq_test_login/playwright/) |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📘 **Allure Report** | [🔗 View Report](https://prajwalpatel20-create.github.io/noventiq_test_login/allure/) |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### ℹ️ Test Configuration" >> $GITHUB_STEP_SUMMARY
-          echo "- **Tag:** ${{ github.event.inputs.test_tag || 'all' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Browser:** ${{ github.event.inputs.browser || 'all' }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Environment:** ${{ github.event.inputs.environment || 'dev' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tag:** \`${{ github.event.inputs.test_tag || 'all' }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Browser:** \`${{ github.event.inputs.browser || 'all' }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment:** \`${{ github.event.inputs.environment || 'dev' }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "> ⚠️ **Note:** Download the **Playwright Report** artifact to view offline. Allure Report requires a web server and is best viewed via the GitHub Pages link above." >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "### 📥 Downloaded Artifacts - How to View" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Reports cannot be opened directly due to browser security. Use these commands:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "# Playwright Report" >> $GITHUB_STEP_SUMMARY
+          echo "npx playwright show-report ./playwright-report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "# Allure Report" >> $GITHUB_STEP_SUMMARY
+          echo "npx allure open ./allure-report" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> 💡 **Tip:** Use the **View Online** links above for instant access!" >> $GITHUB_STEP_SUMMARY
 
   deploy:
     needs: test
