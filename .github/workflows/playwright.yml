@@ -66,17 +66,27 @@ jobs:
           echo "TEST_PASSWORD=${{ secrets.TEST_PASSWORD }}" >> .env.uat
       - name: Run Playwright tests
         run: |
-          TAG="${{ github.event.inputs.test_tag || 'all' }}"
-          BROWSER="${{ github.event.inputs.browser || 'all' }}"
-          CMD="npx playwright test"
-          if [ "$TAG" != "all" ]; then
-            CMD="$CMD --grep '$TAG'"
+          TAG="${{ github.event.inputs.test_tag }}"
+          BROWSER="${{ github.event.inputs.browser }}"
+          
+          # Build command based on inputs
+          if [ -z "$TAG" ] || [ "$TAG" = "all" ]; then
+            if [ -z "$BROWSER" ] || [ "$BROWSER" = "all" ]; then
+              echo "Running: npx playwright test"
+              npx playwright test
+            else
+              echo "Running: npx playwright test --project=$BROWSER"
+              npx playwright test --project="$BROWSER"
+            fi
+          else
+            if [ -z "$BROWSER" ] || [ "$BROWSER" = "all" ]; then
+              echo "Running: npx playwright test --grep $TAG"
+              npx playwright test --grep "$TAG"
+            else
+              echo "Running: npx playwright test --grep $TAG --project=$BROWSER"
+              npx playwright test --grep "$TAG" --project="$BROWSER"
+            fi
           fi
-          if [ "$BROWSER" != "all" ]; then
-            CMD="$CMD --project=$BROWSER"
-          fi
-          echo "Running: $CMD"
-          eval $CMD
         env:
           TEST_ENV: ${{ github.event.inputs.environment || 'dev' }}
           BASE_URL: ${{ secrets.BASE_URL }}
