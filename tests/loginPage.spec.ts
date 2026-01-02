@@ -61,7 +61,13 @@ test.describe('Login Page', () => {
         expect(successHeading).toBe(loginSuccessHeading);
     });
 
-    test('tc - 07: Verify that the application navigates to the correct URL and displays the correct page title after successful login @positive', async ({
+    test('tc - 07: Verify success message contains the username @positive', async ({ pageObjectManager }) => {
+        await pageObjectManager.loginPage.login(correctUsername, correctPassword);
+        const successMessage = await pageObjectManager.homePage.getLoginSuccessMessage();
+        expect(successMessage).toContain(correctUsername);
+    });
+
+    test('tc - 08: Verify that the application navigates to the correct URL and displays the correct page title after successful login @positive', async ({
         pageObjectManager,
     }) => {
         await pageObjectManager.loginPage.login(correctUsername, correctPassword);
@@ -71,7 +77,7 @@ test.describe('Login Page', () => {
         expect.soft(title).toBe(pageTitle);
     });
 
-    test('tc - 08: Verify that the correct success message is displayed after successful login @positive', async ({
+    test('tc - 09: Verify that the correct success message is displayed after successful login @positive', async ({
         pageObjectManager,
     }) => {
         await pageObjectManager.loginPage.login(correctUsername, correctPassword);
@@ -79,17 +85,11 @@ test.describe('Login Page', () => {
         expect(successMessage).toBe(loginSuccessMessage);
     });
 
-    test('tc - 09: Verify that the logout button is visible after successful login @positive', async ({
+    test('tc - 10: Verify that the logout button is visible after successful login @positive', async ({
         pageObjectManager,
     }) => {
         await pageObjectManager.loginPage.login(correctUsername, correctPassword);
         const isLogoutButtonVisible = await pageObjectManager.homePage.isLogoutButtonIsVisible();
         expect(isLogoutButtonVisible).toBe(true);
-    });
-
-    test('tc - 10: Verify success message contains the username @positive', async ({ pageObjectManager }) => {
-        await pageObjectManager.loginPage.login(correctUsername, correctPassword);
-        const successMessage = await pageObjectManager.homePage.getLoginSuccessMessage();
-        expect(successMessage).toContain(correctUsername);
     });
 });

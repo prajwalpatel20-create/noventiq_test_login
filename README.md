@@ -194,13 +194,13 @@ This project includes **10 functional test cases** (5 negative + 5 positive):
 
 ### Positive Test Cases (`@positive`)
 
-| ID    | Test Case           | Description                                   |
-| ----- | ------------------- | --------------------------------------------- |
-| TC-06 | Successful login    | Verify login with valid credentials           |
-| TC-07 | URL & title check   | Verify correct URL and page title after login |
-| TC-08 | Success message     | Verify congratulations message after login    |
-| TC-09 | Logout button       | Verify logout button is visible after login   |
-| TC-10 | Username in message | Verify success message contains the username  |
+| ID    | Test Case          | Description                                   |
+| ----- | ------------------ | --------------------------------------------- |
+| TC-06 | Successful login   | Verify login with valid credentials           |
+| TC-07 | Username in messag | Verify success message contains the username  |
+| TC-08 | URL & title check  | Verify correct URL and page title after login |
+| TC-09 | Success message    | Verify congratulations message after login    |
+| TC-10 | Logout button      | Verify logout button is visible after login   |
 
 ## 🔧 Configuration
 
