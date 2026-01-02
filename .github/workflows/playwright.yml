@@ -96,20 +96,12 @@ jobs:
       - name: Generate Allure Report
         if: always()
         run: npx allure generate allure-results --clean -o allure-report
-      - name: Upload Playwright Report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
       - name: Prepare GitHub Pages
         if: always()
         run: |
           mkdir -p gh-pages
-          cp -r playwright-report gh-pages/playwright
           cp -r allure-report gh-pages/allure
-          echo '<html><head><title>Test Reports</title></head><body><h1>Test Reports</h1><a href="playwright/">Playwright Report</a><br><a href="allure/">Allure Report</a></body></html>' > gh-pages/index.html
+          echo '<html><head><meta http-equiv="refresh" content="0;url=allure/"></head><body><a href="allure/">Allure Report</a></body></html>' > gh-pages/index.html
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         if: always()
@@ -118,32 +110,14 @@ jobs:
       - name: Add Job Summary
         if: always()
         run: |
-          echo "## 📊 Test Reports (Click to View)" >> $GITHUB_STEP_SUMMARY
+          echo "## 📊 Test Report" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Report | View Online |" >> $GITHUB_STEP_SUMMARY
-          echo "|--------|-------------|" >> $GITHUB_STEP_SUMMARY
-          echo "| 📗 **Playwright Report** | [🔗 View Report](https://prajwalpatel20-create.github.io/noventiq_test_login/playwright/) |" >> $GITHUB_STEP_SUMMARY
-          echo "| 📘 **Allure Report** | [🔗 View Report](https://prajwalpatel20-create.github.io/noventiq_test_login/allure/) |" >> $GITHUB_STEP_SUMMARY
+          echo "### 📘 [View Allure Report](https://prajwalpatel20-create.github.io/noventiq_test_login/allure/)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### ℹ️ Test Configuration" >> $GITHUB_STEP_SUMMARY
           echo "- **Tag:** \`${{ github.event.inputs.test_tag || 'all' }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Browser:** \`${{ github.event.inputs.browser || 'all' }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Environment:** \`${{ github.event.inputs.environment || 'dev' }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "---" >> $GITHUB_STEP_SUMMARY
-          echo "### 📥 Downloaded Artifacts - How to View" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Reports cannot be opened directly due to browser security. Use these commands:" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
-          echo "# Playwright Report" >> $GITHUB_STEP_SUMMARY
-          echo "npx playwright show-report ./playwright-report" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "# Allure Report" >> $GITHUB_STEP_SUMMARY
-          echo "npx allure open ./allure-report" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "> 💡 **Tip:** Use the **View Online** links above for instant access!" >> $GITHUB_STEP_SUMMARY
 
   deploy:
     needs: test
